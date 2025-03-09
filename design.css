@@ -1,0 +1,51 @@
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: linear-gradient(135deg, #2E3192, #1BFFFF);
+    color: white;
+}
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+h1, h2 {
+    font-weight: 700;
+}
+.section {
+    padding: 50px 20px;
+    margin-top: 20px;
+}
+.diagnosis-btn {
+    display: none;
+    margin: 50px auto;
+    padding: 15px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff512f, #dd2476);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(255, 0, 100, 0.3);
+}
+.diagnosis-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(255, 0, 100, 0.5);
+}
+img {
+    display: block;
+    max-width: 80%;
+    height: auto;
+    margin: 30px auto;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}

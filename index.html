@@ -44,6 +44,11 @@
                 document.getElementById("diagnosis-btn").style.display = "block";
             }
         });
+        document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("diagnosis-btn").addEventListener("click", function() {
+            window.location.href = "diagnosis.html"; // 페이지 이동
+        });
+    });
     </script>
 </body>
 </html>

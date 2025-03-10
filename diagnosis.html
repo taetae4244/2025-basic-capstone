@@ -6,11 +6,152 @@
     <title>Brain Rot Diagnosis</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="design.css">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            text-align: center;
+            background-color: #001f3f; /* 어두운 블루 */
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #003366; /* 중간 블루 */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        h1, h2 {
+            color: #00aaff; /* 밝은 블루 */
+        }
+        .question {
+            background: #005f9e; /* 질문 칸을 밝은 블루 계열로 변경 */
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            text-align: left;
+            color: white;
+        }
+        .choices label {
+            display: block;
+            padding: 5px;
+            cursor: pointer;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0088cc;
+        }
+        .home-btn {
+            display: block;
+            margin: 20px auto;
+            width: 150px;
+            height: 100px;
+        }
+        .home-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .home-btn img:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <a href="index.html" class="home-btn">
+            <img src="images/blue_color_brain.jpg" alt="홈으로 가기">
+        </a>
+    </header>
+
     <div class="container">
-        <h1>여기가 진단창입니다</h1>
-        <img src="images/blue_color_brain.jpg" alt="뇌 이미지">
+        <h1>Brain Rot 진단 테스트</h1>
     </div>
+
+    <div class="container">
+        <h2>진단 테스트</h2>
+        <form id="quiz-form">
+            <div id="questions-container"></div>
+            <button type="button" onclick="showResult()">결과 확인</button>
+        </form>
+    </div>
+
+    <script>
+        const questions = [
+            "하루에 몇 시간 미디어를 소비하나요?",
+            "SNS를 사용할 때 주로 어떤 목적으로 사용하나요?",
+            "멀티태스킹을 자주 하나요?",
+            "짧은 영상 콘텐츠(예: TikTok, Shorts)를 얼마나 자주 보나요?",
+            "정보를 찾을 때 어떤 방식을 선호하나요?",
+            "책이나 긴 글을 읽는 빈도는?",
+            "디지털 기기 없이 보낼 수 있는 시간이 얼마나 되나요?",
+            "집중력 유지 시간이 얼마나 되나요?",
+            "정보를 기억하는 것이 어려운가요?",
+            "자기 전에 스마트폰을 얼마나 사용하나요?"
+        ];
+
+        const scores = Array(questions.length).fill(null); // 각 질문의 점수를 저장하는 배열
+
+        function createQuiz() {
+            const container = document.getElementById("questions-container");
+
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement("div");
+                questionDiv.classList.add("question");
+
+                const questionText = document.createElement("p");
+                questionText.textContent = `${index + 1}. ${question}`;
+                questionDiv.appendChild(questionText);
+
+                const choicesDiv = document.createElement("div");
+                choicesDiv.classList.add("choices");
+
+                for (let i = 0; i <= 4; i++) {
+                    const label = document.createElement("label");
+                    const radio = document.createElement("input");
+                    radio.type = "radio";
+                    radio.name = `q${index}`;
+                    radio.value = i;
+                    radio.addEventListener("change", () => updateScore(index, i));
+
+                    label.appendChild(radio);
+                    label.appendChild(document.createTextNode(` ${i}점`));
+                    choicesDiv.appendChild(label);
+                }
+
+                questionDiv.appendChild(choicesDiv);
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function updateScore(index, value) {
+            scores[index] = parseInt(value);
+        }
+
+        function showResult() {
+            if (scores.includes(null)) {
+                alert("❗ 모든 질문에 답해주세요!");
+                return;
+            }
+
+            const total = scores.reduce((sum, score) => sum + score, 0);
+            window.location.href = `result.html?score=${total}`;
+        }
+
+        createQuiz();
+    </script>
 </body>
 </html>

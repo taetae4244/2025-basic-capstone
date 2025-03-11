@@ -11,6 +11,8 @@
             text-align: center;
             background-color: #001f3f;
             color: white;
+            margin: 0;
+            padding: 0;
         }
         .container {
             max-width: 600px;
@@ -19,9 +21,23 @@
             background: #003366;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         h1 {
             color: #00aaff;
+        }
+        .result-image {
+            width: 100px;
+            height: 100px;
+            margin-top: 10px;
         }
         .result-text {
             font-size: 18px;
@@ -38,21 +54,45 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
+        .sns-share {
+            margin-top: 20px;
+        }
+        .sns-share button {
+            margin: 5px;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn-home {
+            background-color: #ffaa00;
+        }
+        .footer {
+            margin-top: 40px;
+            padding: 10px;
+            background: #002244;
+            color: #bbb;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>진단 결과</h1>
+        <img id="result-image" class="result-image" src="" alt="결과 이미지">
         <p id="result-message" class="result-text"></p>
-        <div class="btn-container">
-            <button class="btn" onclick="goBack()">다시 테스트하기</button>
-            <button class="btn" onclick="goHome()">홈으로 가기</button>
+        <button class="btn" onclick="goBack()">다시 테스트하기</button>
+        <button class="btn btn-home" onclick="goHome()">홈으로 가기</button>
+        <div class="sns-share">
+            <button onclick="shareToSNS('twitter')">트위터 공유</button>
+            <button onclick="shareToSNS('facebook')">페이스북 공유</button>
+            <button onclick="shareToSNS('kakao')">카카오톡 공유</button>
         </div>
+    </div>
+    
+    <div class="footer">
+        <p>설계자 정보: 윤태옥 | 문의: 010-1234-5678 | 이메일: taeokyoon@kyonggi.ac.kr</p>
     </div>
 
     <script>
@@ -64,18 +104,24 @@
         function showResultMessage() {
             const score = parseInt(getQueryParam("score")) || 0;
             let message = "";
+            let imageSrc = "";
 
             if (score >= 35) {
                 message = "🔥 당신의 뇌는 디지털 피로 상태입니다. 휴식이 필요합니다!";
+                imageSrc = "images/tired_brain.png";
             } else if (score >= 25) {
                 message = "⚡ 디지털 사용량이 높습니다. 조절이 필요할 수 있어요.";
+                imageSrc = "images/active_brain.png";
             } else if (score >= 15) {
                 message = "🧠 적절한 수준의 디지털 사용을 하고 있습니다.";
+                imageSrc = "images/normal_brain.png";
             } else {
                 message = "🎯 훌륭합니다! 디지털 밸런스를 잘 유지하고 있습니다.";
+                imageSrc = "images/healthy_brain.png";
             }
 
             document.getElementById("result-message").textContent = message;
+            document.getElementById("result-image").src = imageSrc;
         }
 
         function goBack() {
@@ -84,6 +130,22 @@
 
         function goHome() {
             window.location.href = "index.html";
+        }
+
+        function shareToSNS(platform) {
+            const url = window.location.href;
+            let shareUrl = "";
+            
+            if (platform === "twitter") {
+                shareUrl = `https://twitter.com/intent/tweet?text=내%20뇌%20진단%20결과는?%20${url}`;
+            } else if (platform === "facebook") {
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            } else if (platform === "kakao") {
+                alert("카카오톡 공유 기능은 별도의 API가 필요합니다.");
+                return;
+            }
+            
+            window.open(shareUrl, "_blank");
         }
 
         showResultMessage();

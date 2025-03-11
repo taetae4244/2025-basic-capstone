@@ -52,9 +52,31 @@
         button:hover {
             background-color: #0088cc;
         }
+        .home-btn {
+            display: block;
+            margin: 20px auto;
+            width: 150px;
+            height: 100px;
+        }
+        .home-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .home-btn img:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
+    <header>
+        <a href="index.html" class="home-btn">
+            <img src="images/blue_color_brain.jpg" alt="홈으로 가기">
+        </a>
+    </header>
+
     <div class="container">
         <h1>Brain Rot 진단 테스트</h1>
     </div>
@@ -134,4 +156,3 @@
     </script>
 </body>
 </html>
-

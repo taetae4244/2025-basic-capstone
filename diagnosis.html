@@ -10,7 +10,7 @@
         body {
             font-family: 'Noto Sans KR', sans-serif;
             text-align: center;
-            background-color: #001f3f; /* 어두운 블루 */
+            background-color: #001f3f;
             color: white;
             margin: 0;
             padding: 0;
@@ -19,15 +19,15 @@
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
-            background: #003366; /* 중간 블루 */
+            background: #003366;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
         h1, h2 {
-            color: #00aaff; /* 밝은 블루 */
+            color: #00aaff;
         }
         .question {
-            background: #005f9e; /* 질문 칸을 밝은 블루 계열로 변경 */
+            background: #005f9e;
             padding: 15px;
             margin-bottom: 10px;
             border-radius: 8px;
@@ -83,6 +83,7 @@
 
     <div class="container">
         <h2>진단 테스트</h2>
+        <p>다음 질문에 대한 답변을 선택하세요. (0점 = 매우 낮음, 4점 = 매우 높음)</p>
         <form id="quiz-form">
             <div id="questions-container"></div>
             <button type="button" onclick="showResult()">결과 확인</button>
@@ -91,46 +92,46 @@
 
     <script>
         const questions = [
-            "하루에 몇 시간 미디어를 소비하나요?",
-            "SNS를 사용할 때 주로 어떤 목적으로 사용하나요?",
-            "멀티태스킹을 자주 하나요?",
-            "짧은 영상 콘텐츠(예: TikTok, Shorts)를 얼마나 자주 보나요?",
-            "정보를 찾을 때 어떤 방식을 선호하나요?",
-            "책이나 긴 글을 읽는 빈도는?",
-            "디지털 기기 없이 보낼 수 있는 시간이 얼마나 되나요?",
-            "집중력 유지 시간이 얼마나 되나요?",
-            "정보를 기억하는 것이 어려운가요?",
-            "자기 전에 스마트폰을 얼마나 사용하나요?"
+            { text: "하루에 몇 시간 미디어를 소비하나요?", scores: ["0시간", "1~2시간", "3~4시간", "5~6시간", "7시간 이상"] },
+            { text: "SNS를 사용할 때 주로 어떤 목적으로 사용하나요?", scores: ["거의 안 씀", "정보 탐색", "친구 소통", "짧은 영상 시청", "무의식적 탐색"] },
+            { text: "멀티태스킹을 자주 하나요?", scores: ["거의 안 함", "가끔 함", "보통", "자주 함", "항상 함"] },
+            { text: "짧은 영상 콘텐츠(예: TikTok, Shorts)를 얼마나 자주 보나요?", scores: ["안 봄", "가끔", "보통", "자주", "매일 여러 시간"] },
+            { text: "정보를 찾을 때 어떤 방식을 선호하나요?", scores: ["책", "논문/전문자료", "블로그", "유튜브", "짧은 SNS 글"] },
+            { text: "책이나 긴 글을 읽는 빈도는?", scores: ["매일", "주 3~4회", "주 1회", "월 1회", "거의 안 읽음"] },
+            { text: "디지털 기기 없이 보낼 수 있는 시간이 얼마나 되나요?", scores: ["하루 6시간 이상", "3~5시간", "1~2시간", "30분", "거의 불가능"] },
+            { text: "집중력 유지 시간이 얼마나 되나요?", scores: ["2시간 이상", "1~2시간", "30분~1시간", "10~30분", "10분 미만"] },
+            { text: "정보를 기억하는 것이 어려운가요?", scores: ["전혀 아님", "거의 아님", "보통", "약간 어려움", "매우 어려움"] },
+            { text: "자기 전에 스마트폰을 얼마나 사용하나요?", scores: ["안 씀", "10~20분", "30~60분", "1~2시간", "2시간 이상"] }
         ];
 
-        const scores = Array(questions.length).fill(null); // 각 질문의 점수를 저장하는 배열
+        const scores = Array(questions.length).fill(null);
 
         function createQuiz() {
             const container = document.getElementById("questions-container");
-
+            
             questions.forEach((question, index) => {
                 const questionDiv = document.createElement("div");
                 questionDiv.classList.add("question");
-
+                
                 const questionText = document.createElement("p");
-                questionText.textContent = `${index + 1}. ${question}`;
+                questionText.textContent = `${index + 1}. ${question.text}`;
                 questionDiv.appendChild(questionText);
-
+                
                 const choicesDiv = document.createElement("div");
                 choicesDiv.classList.add("choices");
-
-                for (let i = 0; i <= 4; i++) {
+                
+                question.scores.forEach((choice, score) => {
                     const label = document.createElement("label");
                     const radio = document.createElement("input");
                     radio.type = "radio";
                     radio.name = `q${index}`;
-                    radio.value = i;
-                    radio.addEventListener("change", () => updateScore(index, i));
-
+                    radio.value = score;
+                    radio.addEventListener("change", () => updateScore(index, score));
+                    
                     label.appendChild(radio);
-                    label.appendChild(document.createTextNode(` ${i}점`));
+                    label.appendChild(document.createTextNode(` ${choice} (${score}점)`));
                     choicesDiv.appendChild(label);
-                }
+                });
 
                 questionDiv.appendChild(choicesDiv);
                 container.appendChild(questionDiv);
